@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Defender: New Hire Orientation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap');
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #0f172a; /* Slate 900 */
+            color: #f8fafc;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gamified-button {
+            transition: all 0.2s ease;
+        }
+        .gamified-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.5);
+        }
+        .gamified-button:active {
+            transform: translateY(1px);
+        }
+        .level-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(100%);
+        }
+        /* Custom Animations */
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        .guide-avatar {
+            background: linear-gradient(135deg, #fef3c7, #fde68a); /* Cream colored background */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4 sm:p-8">
+
+    <!-- Header / Stats Bar -->
+    <header class="w-full max-w-4xl flex justify-between items-center mb-8 glass-panel rounded-2xl p-4 animate-pop">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full guide-avatar flex items-center justify-center text-slate-800 shadow-lg border-2 border-amber-200">
+                <i class="fa-solid fa-user-astronaut text-2xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-white tracking-wide">Cyber<span class="text-blue-400">Defender</span></h1>
+                <p class="text-xs text-slate-300">New Hire Training</p>
+            </div>
+        </div>
+        <div class="flex gap-4 text-center">
+            <div class="bg-slate-800 rounded-lg px-4 py-2 border border-slate-700">
+                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Score</p>
+                <p class="text-xl font-black text-yellow-400" id="scoreDisplay">0</p>
+            </div>
+            <div class="bg-slate-800 rounded-lg px-4 py-2 border border-slate-700 hidden sm:block">
+                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Rank</p>
+                <p class="text-xl font-black text-purple-400" id="rankDisplay">Rookie</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="w-full max-w-4xl relative">
+        
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="glass-panel rounded-3xl p-8 text-center animate-pop">
+            <div class="w-32 h-32 mx-auto rounded-full guide-avatar flex items-center justify-center text-slate-800 mb-6 shadow-[0_0_30px_rgba(253,230,138,0.3)]">
+                 <i class="fa-solid fa-user-ninja text-6xl"></i>
+            </div>
+            <h2 class="text-3xl font-bold mb-4 text-amber-100">Hey there! Welcome to the team.</h2>
+            <p class="text-lg text-slate-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+                I'm Riki, your guide. You'll notice I like to keep things relaxed—just rocking my favorite cream hoodie today. 
+                But when it comes to Cyber Security, we don't mess around! Before we get you fully set up, let's play a quick game to sharpen your digital instincts.
+            </p>
+            <button onclick="startGame()" class="gamified-button bg-blue-500 hover:bg-blue-400 text-white font-bold py-4 px-10 rounded-full text-xl shadow-lg shadow-blue-500/50">
+                Start Mission <i class="fa-solid fa-gamepad ml-2"></i>
+            </button>
+        </div>
+
+        <!-- Level Map Screen -->
+        <div id="levelScreen" class="hidden animate-pop">
+            <div class="mb-6 flex justify-between items-center">
+                <h2 class="text-2xl font-bold">Mission Map</h2>
+                <div class="w-1/2 bg-slate-700 rounded-full h-3">
+                    <div id="progressBar" class="bg-blue-500 h-3 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Level 1 -->
+                <div id="card-lvl-1" class="glass-panel rounded-2xl p-6 border-l-4 border-blue-500 transform transition hover:scale-105 cursor-pointer" onclick="openLevel(1)">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-blue-500/20 text-blue-400 rounded-lg p-3">
+                            <i class="fa-solid fa-envelope-open-text text-2xl"></i>
+                        </div>
+                        <span class="bg-slate-700 text-xs font-bold px-2 py-1 rounded">Stage 1</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">The Email Trap</h3>
+                    <p class="text-sm text-slate-400">Spot the deceptive phish trying to steal your credentials.</p>
+                </div>
+
+                <!-- Level 2 -->
+                <div id="card-lvl-2" class="glass-panel rounded-2xl p-6 border-l-4 border-slate-600 locked relative">
+                    <div class="absolute inset-0 flex items-center justify-center z-10" id="lock-icon-2">
+                        <i class="fa-solid fa-lock text-4xl text-slate-400 opacity-50"></i>
+                    </div>
+                    <div class="flex justify-between items-start mb-4 opacity-50">
+                        <div class="bg-purple-500/20 text-purple-400 rounded-lg p-3">
+                            <i class="fa-solid fa-key text-2xl"></i>
+                        </div>
+                        <span class="bg-slate-700 text-xs font-bold px-2 py-1 rounded">Stage 2</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 opacity-50">Key to the Castle</h3>
+                    <p class="text-sm text-slate-400 opacity-50">Craft a defense that hackers can't crack.</p>
+                </div>
+
+                <!-- Level 3 -->
+                <div id="card-lvl-3" class="glass-panel rounded-2xl p-6 border-l-4 border-slate-600 locked relative">
+                    <div class="absolute inset-0 flex items-center justify-center z-10" id="lock-icon-3">
+                        <i class="fa-solid fa-lock text-4xl text-slate-400 opacity-50"></i>
+                    </div>
+                    <div class="flex justify-between items-start mb-4 opacity-50">
+                        <div class="bg-green-500/20 text-green-400 rounded-lg p-3">
+                            <i class="fa-solid fa-laptop-house text-2xl"></i>
+                        </div>
+                        <span class="bg-slate-700 text-xs font-bold px-2 py-1 rounded">Stage 3</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 opacity-50">Physical Reality</h3>
+                    <p class="text-sm text-slate-400 opacity-50">Protect your gear in the real world.</p>
+                </div>
+
+                <!-- Level 4 -->
+                <div id="card-lvl-4" class="glass-panel rounded-2xl p-6 border-l-4 border-slate-600 locked relative">
+                    <div class="absolute inset-0 flex items-center justify-center z-10" id="lock-icon-4">
+                        <i class="fa-solid fa-lock text-4xl text-slate-400 opacity-50"></i>
+                    </div>
+                    <div class="flex justify-between items-start mb-4 opacity-50">
+                        <div class="bg-orange-500/20 text-orange-400 rounded-lg p-3">
+                            <i class="fa-solid fa-door-open text-2xl"></i>
+                        </div>
+                        <span class="bg-slate-700 text-xs font-bold px-2 py-1 rounded">Stage 4</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 opacity-50">The Shadow</h3>
+                    <p class="text-sm text-slate-400 opacity-50">Don't let politeness compromise security.</p>
+                </div>
+
+                <!-- Level 5 -->
+                <div id="card-lvl-5" class="glass-panel rounded-2xl p-6 border-l-4 border-slate-600 locked relative">
+                    <div class="absolute inset-0 flex items-center justify-center z-10" id="lock-icon-5">
+                        <i class="fa-solid fa-lock text-4xl text-slate-400 opacity-50"></i>
+                    </div>
+                    <div class="flex justify-between items-start mb-4 opacity-50">
+                        <div class="bg-teal-500/20 text-teal-400 rounded-lg p-3">
+                            <i class="fa-solid fa-wifi text-2xl"></i>
+                        </div>
+                        <span class="bg-slate-700 text-xs font-bold px-2 py-1 rounded">Stage 5</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 opacity-50">Café Connection</h3>
+                    <p class="text-sm text-slate-400 opacity-50">Navigate the dangers of public networks.</p>
+                </div>
+
+                <!-- Level 6 -->
+                <div id="card-lvl-6" class="glass-panel rounded-2xl p-6 border-l-4 border-slate-600 locked relative">
+                    <div class="absolute inset-0 flex items-center justify-center z-10" id="lock-icon-6">
+                        <i class="fa-solid fa-lock text-4xl text-slate-400 opacity-50"></i>
+                    </div>
+                    <div class="flex justify-between items-start mb-4 opacity-50">
+                        <div class="bg-rose-500/20 text-rose-400 rounded-lg p-3">
+                            <i class="fa-solid fa-phone-volume text-2xl"></i>
+                        </div>
+                        <span class="bg-slate-700 text-xs font-bold px-2 py-1 rounded">Stage 6</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 opacity-50">The Urgent Call</h3>
+                    <p class="text-sm text-slate-400 opacity-50">Spot the vishing (voice phishing) attack.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question/Scenario Modal -->
+        <div id="questionModal" class="hidden absolute inset-0 z-50 flex items-center justify-center">
+            <div class="absolute inset-0 bg-slate-900/90 backdrop-blur-sm rounded-3xl" onclick="closeModal()"></div>
+            <div class="glass-panel w-full max-w-2xl rounded-3xl p-8 relative z-10 animate-pop border border-slate-600 shadow-2xl shadow-blue-900/20">
+                <button onclick="closeModal()" class="absolute top-4 right-6 text-slate-400 hover:text-white text-2xl">&times;</button>
+                
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-10 h-10 rounded-full guide-avatar flex items-center justify-center text-slate-800 text-sm">
+                        <i class="fa-solid fa-user-astronaut"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-blue-400 font-bold uppercase tracking-wide text-sm" id="modalStageTitle">Stage 1</h3>
+                        <p class="text-slate-300 text-sm italic">Riki says...</p>
+                    </div>
+                </div>
+
+                <h2 id="scenarioText" class="text-xl sm:text-2xl font-bold mb-6 text-white leading-snug">
+                    <!-- Scenario injected here -->
+                </h2>
+
+                <div id="optionsContainer" class="flex flex-col gap-3">
+                    <!-- Options injected here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Feedback Toast (Instead of alert) -->
+        <div id="feedbackToast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 px-6 py-4 rounded-xl shadow-2xl font-bold text-lg hidden items-center gap-3 z-50 transition-all duration-300">
+            <i id="feedbackIcon" class="fa-solid"></i>
+            <span id="feedbackText"></span>
+        </div>
+
+    </main>
+
+    <script>
+        // --- State Management ---
+        let currentScore = 0;
+        let unlockedLevels = 1;
+        let activeLevelForQuestion = null;
+
+        // --- Course Content ---
+        const levelData = {
+            1: {
+                title: "Stage 1: Phishing",
+                scenario: "You just got an email from 'HR-Adm1n@company-portal.com'. It says: 'URGENT: Your payroll account will be suspended in 2 hours. Click here to verify your identity.' What's your move?",
+                options: [
+                    { id: 'a', text: "Click it fast! I don't want to miss my paycheck.", correct: false, feedback: "Whoa, look closely at that email address ('Adm1n', 'company-portal'). That's a classic phishing trap!" },
+                    { id: 'b', text: "Ignore it. HR never emails me.", correct: false, feedback: "Ignoring it saves you, but leaves the trap active for others." },
+                    { id: 'c', text: "Hover over the link to check the URL, then report it to the IT Security team.", correct: true, feedback: "Nailed it! Always verify and report. You just saved the company a huge headache." }
+                ],
+                points: 100
+            },
+            2: {
+                title: "Stage 2: Passwords",
+                scenario: "Alright, time to set up your master password for the secure vault. Which of these is the smartest choice?",
+                options: [
+                    { id: 'a', text: "P@ssw0rd2026 (It has symbols and numbers!)", correct: false, feedback: "Too predictable! Hackers guess this in milliseconds." },
+                    { id: 'b', text: "MyDogBuster123", correct: false, feedback: "Cute dog, but personal info is easily scraped from your social media." },
+                    { id: 'c', text: "Purple$Coffee!Mountain99", correct: true, feedback: "Perfect! A long, nonsensical passphrase is incredibly hard for computers to crack but easy for you to remember." }
+                ],
+                points: 150
+            },
+            3: {
+                title: "Stage 3: Physical Security",
+                scenario: "You're working from a cool local cafe. You need to grab your order from the counter, which is just 10 seconds away. Your laptop is open.",
+                options: [
+                    { id: 'a', text: "Leave it open. I'll be super fast.", correct: false, feedback: "10 seconds is all it takes for someone to snap a photo of sensitive data or plug in a malicious USB." },
+                    { id: 'b', text: "Hit Win+L (or Cmd+Ctrl+Q on Mac) to lock the screen before standing up.", correct: true, feedback: "That's my guy! Always lock your screen when you walk away. A simple habit that saves careers." },
+                    { id: 'c', text: "Ask the stranger next to me to watch it.", correct: false, feedback: "Never trust random strangers with company hardware!" }
+                ],
+                points: 200
+            },
+            4: {
+                title: "Stage 4: Tailgating",
+                scenario: "You're swiping your badge to enter the secure office building. A person you don't recognize carrying two large coffees rushes up behind you and says, 'Hold the door, please! My hands are full!'",
+                options: [
+                    { id: 'a', text: "Hold the door. It's just polite, and they have coffee!", correct: false, feedback: "Classic trick! Politeness can cause a major breach. Always make them swipe their own badge." },
+                    { id: 'b', text: "Apologize and say they need to use their own badge.", correct: true, feedback: "Exactly. It might feel awkward, but physical security beats politeness every single time." },
+                    { id: 'c', text: "Take a coffee from them as payment for holding the door.", correct: false, feedback: "Funny, but still a security breach! Don't let unauthorized people into the building." }
+                ],
+                points: 150
+            },
+            5: {
+                title: "Stage 5: Public Wi-Fi",
+                scenario: "You're at an airport. You need to send a highly confidential report to your manager right now. You see a free network called 'Airport_Free_WiFi'.",
+                options: [
+                    { id: 'a', text: "Connect and send it fast before boarding.", correct: false, feedback: "Open networks are public playgrounds for hackers. They can easily intercept your files." },
+                    { id: 'b', text: "Connect, but only use Incognito Mode.", correct: false, feedback: "Incognito only hides your local history. It does nothing to encrypt your network traffic." },
+                    { id: 'c', text: "Turn on your company VPN first, or use your phone's mobile hotspot.", correct: true, feedback: "Nailed it! VPNs encrypt your data, making it unreadable even if someone intercepts it." }
+                ],
+                points: 200
+            },
+            6: {
+                title: "Stage 6: Social Engineering",
+                scenario: "Your phone rings. The caller ID says 'IT Helpdesk'. The person sounds frantic: 'Hi, critical server crash! I need your password to back up your local files or they will be deleted right now!'",
+                options: [
+                    { id: 'a', text: "Give them the password. You don't want to lose your files!", correct: false, feedback: "Stop right there! Real IT will NEVER ask for your password. This is a Vishing (voice phishing) attack." },
+                    { id: 'b', text: "Hang up, find the official IT number in the directory, and call them directly to verify.", correct: true, feedback: "Boom! Always break the panic loop. Verifying through official channels stops social engineering in its tracks." },
+                    { id: 'c', text: "Tell them your password but change it immediately after the call.", correct: false, feedback: "Even a few seconds is enough time for an attacker to lock you out or install ransomware." }
+                ],
+                points: 250
+            }
+        };
+
+        // --- Core Functions ---
+        function startGame() {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('levelScreen').classList.remove('hidden');
+            updateUI();
+        }
+
+        function openLevel(levelId) {
+            if (levelId > unlockedLevels) {
+                showToast("Finish previous stages first, recruit!", "warning");
+                return;
+            }
+            
+            activeLevelForQuestion = levelId;
+            const data = levelData[levelId];
+            
+            document.getElementById('modalStageTitle').innerText = data.title;
+            document.getElementById('scenarioText').innerText = data.scenario;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = ''; // Clear previous
+            
+            // Shuffle options slightly (optional, keeping static for now for simplicity)
+            data.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left bg-slate-800 hover:bg-slate-700 border border-slate-600 p-4 rounded-xl transition-all duration-200 group flex items-start gap-4";
+                btn.onclick = () => checkAnswer(opt);
+                
+                btn.innerHTML = `
+                    <div class="mt-1 w-6 h-6 rounded border-2 border-slate-500 group-hover:border-blue-400 flex-shrink-0 flex items-center justify-center">
+                        <div class="w-3 h-3 rounded-sm bg-blue-400 opacity-0 group-hover:opacity-50 transition-opacity"></div>
+                    </div>
+                    <span class="text-slate-200 group-hover:text-white font-semibold">${opt.text}</span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('questionModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('questionModal').classList.add('hidden');
+        }
+
+        function checkAnswer(option) {
+            const levelId = activeLevelForQuestion;
+            
+            if (option.correct) {
+                // Correct
+                closeModal();
+                showToast(option.feedback, "success");
+                
+                // Add points
+                currentScore += levelData[levelId].points;
+                document.getElementById('scoreDisplay').innerText = currentScore;
+                
+                // Animate score text
+                const scoreEl = document.getElementById('scoreDisplay');
+                scoreEl.classList.add('scale-150', 'text-green-400');
+                setTimeout(() => scoreEl.classList.remove('scale-150', 'text-green-400'), 300);
+
+                // Unlock next level
+                if (levelId === unlockedLevels && unlockedLevels < 6) {
+                    unlockedLevels++;
+                    setTimeout(() => unlockLevelUI(unlockedLevels), 1500);
+                } else if (unlockedLevels === 6 && levelId === 6) {
+                    // Finished Course
+                    setTimeout(showVictoryScreen, 2000);
+                }
+                updateUI();
+                
+            } else {
+                // Wrong
+                showToast(option.feedback, "error");
+            }
+        }
+
+        function unlockLevelUI(level) {
+            const card = document.getElementById(`card-lvl-${level}`);
+            const lock = document.getElementById(`lock-icon-${level}`);
+            
+            card.classList.remove('locked', 'border-slate-600');
+            
+            // Set specific colors based on level
+            if(level === 2) card.classList.add('border-purple-500', 'cursor-pointer', 'hover:scale-105');
+            if(level === 3) card.classList.add('border-green-500', 'cursor-pointer', 'hover:scale-105');
+            if(level === 4) card.classList.add('border-orange-500', 'cursor-pointer', 'hover:scale-105');
+            if(level === 5) card.classList.add('border-teal-500', 'cursor-pointer', 'hover:scale-105');
+            if(level === 6) card.classList.add('border-rose-500', 'cursor-pointer', 'hover:scale-105');
+            
+            // Remove opacity classes from children
+            Array.from(card.children).forEach(child => child.classList.remove('opacity-50'));
+            if(lock) lock.remove();
+            
+            card.onclick = () => openLevel(level);
+            
+            showToast(`Stage ${level} Unlocked!`, "info");
+        }
+
+        function updateUI() {
+            // Update Progress Bar
+            const progress = ((unlockedLevels - 1) / 5) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            
+            // Update Rank
+            let rank = "Rookie";
+            if (currentScore >= 150) rank = "Defender";
+            if (currentScore >= 400) rank = "Specialist";
+            if (currentScore >= 700) rank = "Cyber Ninja";
+            if (currentScore >= 950) rank = "Master Architect";
+            document.getElementById('rankDisplay').innerText = rank;
+        }
+
+        function showToast(message, type) {
+            const toast = document.getElementById('feedbackToast');
+            const icon = document.getElementById('feedbackIcon');
+            const text = document.getElementById('feedbackText');
+            
+            // Reset classes
+            toast.className = "fixed bottom-10 left-1/2 transform -translate-x-1/2 px-6 py-4 rounded-xl shadow-2xl font-bold text-lg flex items-center gap-3 z-50 transition-all duration-300 translate-y-20 opacity-0 pointer-events-none";
+            icon.className = "fa-solid";
+            
+            text.innerText = message;
+            
+            if (type === "success") {
+                toast.classList.add('bg-green-500', 'text-white');
+                icon.classList.add('fa-check-circle', 'text-2xl');
+            } else if (type === "error") {
+                toast.classList.add('bg-red-500', 'text-white');
+                icon.classList.add('fa-triangle-exclamation', 'text-2xl');
+            } else if (type === "warning") {
+                toast.classList.add('bg-yellow-500', 'text-slate-900');
+                icon.classList.add('fa-lock', 'text-2xl');
+            } else {
+                toast.classList.add('bg-blue-500', 'text-white');
+                icon.classList.add('fa-unlock', 'text-2xl');
+            }
+            
+            // Trigger animation
+            setTimeout(() => {
+                toast.classList.remove('translate-y-20', 'opacity-0');
+            }, 10);
+            
+            // Hide after delay
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 4000);
+        }
+
+        function showVictoryScreen() {
+            document.getElementById('levelScreen').innerHTML = `
+                <div class="glass-panel rounded-3xl p-10 text-center animate-pop border-2 border-green-400 shadow-[0_0_50px_rgba(74,222,128,0.2)]">
+                    <div class="text-green-400 text-6xl mb-6"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h2 class="text-4xl font-black mb-4 text-white">Course Complete!</h2>
+                    <p class="text-xl text-slate-300 mb-6">Awesome job. You scored <span class="text-yellow-400 font-bold">${currentScore}</span> points and earned the rank of <span class="text-purple-400 font-bold">${document.getElementById('rankDisplay').innerText}</span>.</p>
+                    <p class="text-slate-400 italic mb-8">"You're officially ready to connect to the main servers. Stay sharp out there!" - Riki</p>
+                    <button onclick="location.reload()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-full transition">
+                        Restart Training
+                    </button>
+                </div>
+            `;
+            document.getElementById('progressBar').style.width = '100%';
+        }
+    </script>
+</body>
+</html>
